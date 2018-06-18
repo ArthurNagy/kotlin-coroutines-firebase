@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+
 android {
     buildToolsVersion build_tools
     compileSdkVersion rootProject.compile_sdk
@@ -12,13 +13,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+        consumerProguardFiles 'consumer-proguard-rules.pro'
     }
 }
 
@@ -31,11 +26,11 @@ kotlin {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    compileOnly "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
 
-    implementation "com.google.firebase:firebase-core:$firebase_core"
-    implementation "com.google.firebase:firebase-firestore:$firebase_firestore"
+    compileOnly "com.google.firebase:firebase-core:$firebase_core"
+    compileOnly "com.google.firebase:firebase-firestore:$firebase_firestore"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'

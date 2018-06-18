@@ -1,9 +1,0 @@
-<!--
-  ~ Copyright (c) 2018 Halcyon Mobile
-  ~ http://www.halcyonmobile.com
-  ~ All rights reserved.
-  -->
-
-<resources>
-    <string name="app_name">Coroutines Firestore</string>
-</resources>
