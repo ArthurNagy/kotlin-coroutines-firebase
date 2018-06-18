@@ -1,4 +1,4 @@
-package me.arthurnagy.kotlincoroutines.firestore
+package me.arthurnagy.kotlincoroutines
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.QuerySnapshot
@@ -66,4 +66,5 @@ suspend fun <T> Task<QuerySnapshot>.awaitGet(type: Class<T>): List<T> = awaitTas
 
 suspend inline fun <reified T> Task<QuerySnapshot>.awaitGet(): List<T> = this.awaitGet(T::class.java)
 
-suspend inline fun <reified T> Task<QuerySnapshot>.awaitGetResult(): Result<List<T>> = wrapIntoResult { this.awaitGet<T>() }
+suspend inline fun <reified T> Task<QuerySnapshot>.awaitGetResult(): Result<List<T>> =
+    wrapIntoResult { this.awaitGet<T>() }

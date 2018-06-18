@@ -1,4 +1,4 @@
-package me.arthurnagy.kotlincoroutines.firestore
+package me.arthurnagy.kotlincoroutines
 
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
@@ -23,5 +23,6 @@ suspend inline fun <T : Any> CollectionReference.awaitAdd(data: T): DocumentRefe
     }
 }
 
-suspend inline fun <T : Any> CollectionReference.awaitAddResult(data: T): Result<DocumentReference> = wrapIntoResult { this.awaitAdd(data) }
+suspend inline fun <T : Any> CollectionReference.awaitAddResult(data: T): Result<DocumentReference> =
+    wrapIntoResult { this.awaitAdd(data) }
 //endregion

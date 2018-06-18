@@ -1,4 +1,4 @@
-package me.arthurnagy.kotlincoroutines.firestore
+package me.arthurnagy.kotlincoroutines
 
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.SetOptions
@@ -34,7 +34,8 @@ private suspend fun <T> awaitDocumentValue(document: DocumentReference, type: Cl
  * @return
  * @receiver
  */
-suspend fun <T> DocumentReference.awaitGet(type: Class<T>, source: Source = Source.DEFAULT): T = awaitDocumentValue(this, type, source)
+suspend fun <T> DocumentReference.awaitGet(type: Class<T>, source: Source = Source.DEFAULT): T =
+    awaitDocumentValue(this, type, source)
 
 /**
  * @param source
@@ -44,7 +45,8 @@ suspend fun <T> DocumentReference.awaitGet(type: Class<T>, source: Source = Sour
 suspend inline fun <reified T> DocumentReference.awaitGet(source: Source = Source.DEFAULT): T = this.awaitGet(T::class.java, source)
 
 
-suspend inline fun <reified T> DocumentReference.awaitGetResult(source: Source = Source.DEFAULT): Result<T> = wrapIntoResult { this.awaitGet<T>(source) }
+suspend inline fun <reified T> DocumentReference.awaitGetResult(source: Source = Source.DEFAULT): Result<T> =
+    wrapIntoResult { this.awaitGet<T>(source) }
 //endregion
 
 //region SET
@@ -87,7 +89,8 @@ suspend inline fun DocumentReference.awaitUpdate(data: Map<String, Any>): Unit =
     }
 }
 
-suspend inline fun DocumentReference.awaitUpdateResult(data: Map<String, Any>): Result<Unit> = wrapIntoResult { this.awaitUpdate(data) }
+suspend inline fun DocumentReference.awaitUpdateResult(data: Map<String, Any>): Result<Unit> =
+    wrapIntoResult { this.awaitUpdate(data) }
 
 /**
  *
@@ -111,5 +114,6 @@ suspend inline fun DocumentReference.awaitDelete(): Unit = suspendCoroutine { co
     }
 }
 
-suspend inline fun DocumentReference.awaitDeleteResult(): Result<Unit> = wrapIntoResult { this.awaitDelete() }
+suspend inline fun DocumentReference.awaitDeleteResult(): Result<Unit> =
+    wrapIntoResult { this.awaitDelete() }
 //endregion

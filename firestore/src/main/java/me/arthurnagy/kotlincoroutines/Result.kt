@@ -1,4 +1,4 @@
-package me.arthurnagy.kotlincoroutines.firestore
+package me.arthurnagy.kotlincoroutines
 
 sealed class Result<out T> {
     class Success<out T>(val value: T) : Result<T>()

@@ -40,7 +40,7 @@ ext {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(":library")
+    implementation project(':firestore')
 
     implementation "androidx.appcompat:appcompat:$androidx"
     implementation "androidx.recyclerview:recyclerview:$androidx"

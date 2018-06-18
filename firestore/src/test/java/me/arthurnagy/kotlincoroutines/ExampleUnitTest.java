@@ -4,7 +4,7 @@
  * All rights reserved.
  */
 
-package me.arthurnagy.kotlincoroutines.firestore;
+package me.arthurnagy.kotlincoroutines;
 
 import org.junit.Test;
 
