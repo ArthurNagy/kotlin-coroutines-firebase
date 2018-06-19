@@ -15,6 +15,15 @@ android {
 
         consumerProguardFiles 'consumer-proguard-rules.pro'
     }
+    buildTypes {
+        debug {
+            minifyEnabled true
+            useProguard false
+        }
+        release {
+            minifyEnabled true
+        }
+    }
 }
 
 kotlin {
