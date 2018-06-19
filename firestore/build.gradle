@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka-android'
+apply from: 'deploy.gradle'
 
 android {
     buildToolsVersion build_tools
@@ -8,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.min_sdk
         targetSdkVersion rootProject.target_sdk
-        versionCode rootProject.version_code
-        versionName rootProject.version_name
+        versionCode version_code
+        versionName version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -50,5 +51,3 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha3'
 }
-
-apply from: 'deploy.gradle'
