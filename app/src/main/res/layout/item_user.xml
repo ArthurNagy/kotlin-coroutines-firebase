@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--suppress AndroidUnknownAttribute -->
+    <data class=".UserBinding">
+
+        <variable
+            name="user"
+            type="me.arthurnagy.example.User" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/third_keyline">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/third_keyline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/third_keyline" />
+
+        <ImageView
+            android:id="@+id/user_avatar"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
+            android:layout_marginStart="@dimen/first_keyline"
+            android:layout_marginLeft="@dimen/first_keyline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:profileImageUrl="@{user.profilePictureUrl}"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{user.displayName}"
+            app:layout_constraintStart_toEndOf="@id/third_keyline"
+            app:layout_constraintTop_toTopOf="@id/user_avatar"
+            tools:text="@tools:sample/full_names" />
+
+        <TextView
+            android:id="@+id/user_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{user.email}"
+            app:layout_constraintStart_toEndOf="@id/third_keyline"
+            app:layout_constraintTop_toBottomOf="@id/user_name"
+            tools:text="email@email.com" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -2,7 +2,7 @@
 
 buildscript {
     ext{
-        kotlin_version = '1.2.50'
+        kotlin_version = '1.2.41'
         android_gradle_plugin = '3.2.0-alpha18'
     }
     repositories {

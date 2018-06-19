@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="content_padding">8dp</dimen>
+    <dimen name="first_keyline">16dp</dimen>
+    <dimen name="second_keyline">24dp</dimen>
+    <dimen name="third_keyline">72dp</dimen>
+
+    <dimen name="account_header_size">56dp</dimen>
+    <dimen name="avatar_size">40dp</dimen>
+
+</resources>

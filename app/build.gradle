@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     buildToolsVersion build_tools
@@ -14,6 +15,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            minifyEnabled true
+            useProguard false
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -35,17 +40,23 @@ kotlin {
 
 ext {
     androidx = '1.0.0-alpha3'
+    lifecycle = '2.0.0-alpha1'
+    glide = "4.7.1"
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':firestore')
-//    implementation 'me.arthurnagy.kotlincoroutines:firestore:0.0.2'
+//    implementation 'me.arthurnagy.kotlincoroutines:firestore:0.0.3'
 
     implementation "androidx.appcompat:appcompat:$androidx"
     implementation "androidx.recyclerview:recyclerview:$androidx"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
@@ -54,6 +65,9 @@ dependencies {
     implementation "com.google.firebase:firebase-firestore:$firebase_firestore"
     implementation "com.google.firebase:firebase-auth:16.0.1"
     implementation "com.google.android.gms:play-services-auth:15.0.1"
+
+    implementation "com.github.bumptech.glide:glide:$glide"
+    kapt "com.github.bumptech.glide:compiler:$glide"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
