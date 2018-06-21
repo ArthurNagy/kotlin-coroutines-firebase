@@ -13,6 +13,7 @@ android {
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         debug {
@@ -53,6 +54,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidx"
     implementation "androidx.recyclerview:recyclerview:$androidx"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+    implementation "com.google.android.material:material:$androidx"
 
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
@@ -63,7 +65,7 @@ dependencies {
 
     implementation "com.google.firebase:firebase-core:$firebase_core"
     implementation "com.google.firebase:firebase-firestore:$firebase_firestore"
-    implementation "com.google.firebase:firebase-auth:16.0.1"
+    implementation "com.google.firebase:firebase-auth:16.0.2"
     implementation "com.google.android.gms:play-services-auth:15.0.1"
 
     implementation "com.github.bumptech.glide:glide:$glide"

@@ -3,6 +3,7 @@ package me.arthurnagy.example
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -20,8 +21,11 @@ class MainActivity : AppCompatActivity() {
         viewModel = provideViewModel()
         binding.viewModel = viewModel
 
-        val adapter = UsersAdapter()
-        binding.usersRecycler.adapter = adapter
+        val usersAdapter = UsersAdapter()
+        binding.usersRecycler.apply {
+            adapter = usersAdapter
+            addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
+        }
 
         val signInClient = GoogleSignIn.getClient(
             this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -39,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         viewModel.users.observe(this) {
-            adapter.submitList(it)
+            usersAdapter.submitList(it)
         }
 
     }

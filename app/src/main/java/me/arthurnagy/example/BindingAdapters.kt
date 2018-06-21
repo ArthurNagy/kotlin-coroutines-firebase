@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 
 @BindingAdapter("goneIf")
@@ -17,8 +17,9 @@ fun ImageView.profileImageFromUrl(imageUrl: String?) {
     if (!imageUrl.isNullOrEmpty()) {
         Glide.with(this.context)
             .load(imageUrl)
+            .apply(RequestOptions.skipMemoryCacheOf(true))
+            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
             .apply(RequestOptions.circleCropTransform())
-            .transition(DrawableTransitionOptions.withCrossFade())
             .into(this)
     }
 }

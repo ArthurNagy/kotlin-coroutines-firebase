@@ -8,4 +8,22 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ActionButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
+        <item name="cornerRadius">@dimen/btn_corner_radius</item>
+        <item name="iconTint">@android:color/white</item>
+        <item name="iconPadding">@dimen/content_padding</item>
+        <item name="android:minHeight">56dp</item>
+    </style>
+
+    <style name="ActionButton.Red">
+        <item name="backgroundTint">#F44336</item>
+
+    </style>
+
+    <style name="ActionButton.Green">
+        <item name="backgroundTint">#4CAF50</item>
+
+    </style>
+
 </resources>

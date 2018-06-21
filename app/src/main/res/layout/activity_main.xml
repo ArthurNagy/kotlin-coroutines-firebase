@@ -19,11 +19,17 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/users_recycler"
-            goneIf="@{!viewModel.isUserLoggedIn}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_user" />
+
+        <androidx.constraintlayout.widget.Group
+            goneIf="@{!viewModel.isUserLoggedIn}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="users_recycler, add_user, remove_user"
+            tools:visibility="gone" />
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in"
@@ -36,6 +42,32 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_user"
+            style="@style/ActionButton.Green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/content_padding"
+            android:onClickListener="@{(v) -> viewModel.addUser()}"
+            android:text="@string/add_user"
+            app:icon="@drawable/ic_add_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/remove_user" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/remove_user"
+            style="@style/ActionButton.Red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/content_padding"
+            android:onClickListener="@{(v) -> viewModel.removeUser()}"
+            android:text="@string/remove_user"
+            app:icon="@drawable/ic_remove_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/add_user"
+            app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -12,11 +12,10 @@ import kotlinx.coroutines.experimental.DefaultDispatcher
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import me.arthurnagy.kotlincoroutines.Result
-import me.arthurnagy.kotlincoroutines.awaitGetResult
-import me.arthurnagy.kotlincoroutines.awaitResult
-import me.arthurnagy.kotlincoroutines.awaitSetResult
+import me.arthurnagy.kotlincoroutines.*
+import java.util.*
 import kotlin.coroutines.experimental.CoroutineContext
+import kotlin.coroutines.experimental.suspendCoroutine
 
 class MainViewModel : ViewModel() {
 
@@ -86,6 +85,48 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun addUser() {
+        launchWithParent(UI) {
+            val newUser = createUser()
+            val newUserResult = userCollection.document(newUser.id).awaitSetResult(newUser)
+            when (newUserResult) {
+                is Result.Success -> {
+                    users.value?.let { currentUsers ->
+                        val position = if (currentUsers.isNotEmpty()) (0..currentUsers.size).randomPosition() else 0
+                        val newUsers = currentUsers.toMutableList().apply { add(position, newUser) }
+                        users.value = newUsers
+                    }
+                }
+                is Result.Error -> Log.d("MainViewModel", "addUser: failed to save user: ${newUserResult.exception}")
+            }
+        }
+    }
+
+    private suspend fun createUser() = suspendCoroutine<User> { continuation ->
+        val id = letters.randomString(16)
+        val displayName = "${letters.randomString(6)} ${letters.randomString(4)}"
+        val email = "${letters.randomString(5)}@${letters.randomString(5)}.com"
+        continuation.resume(User(id, displayName, email, "https://source.unsplash.com/collection/888146/300x300"))
+    }
+
+
+    fun removeUser() {
+        launchWithParent(UI) {
+            users.value?.let { currentUsers ->
+                if (currentUsers.isNotEmpty()) {
+                    val position = (0..currentUsers.size).randomPosition()
+                    val newUsers = currentUsers.toMutableList()
+                    val userToRemove = newUsers.removeAt(position)
+                    val removeUserResult = userCollection.document(userToRemove.id).awaitDeleteResult()
+                    when (removeUserResult) {
+                        is Result.Success -> users.value = newUsers
+                        is Result.Error -> Log.d("MainViewModel", "removeUser: failed to remove user: ${removeUserResult.exception}")
+                    }
+                }
+            }
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         job.cancel()
@@ -95,5 +136,15 @@ class MainViewModel : ViewModel() {
         context: CoroutineContext = DefaultDispatcher,
         block: suspend CoroutineScope.() -> Unit
     ) = launch(context = context, parent = job, block = block)
+
+    private fun IntRange.randomPosition() = random.nextInt(endInclusive - start) + start
+
+    private fun ClosedRange<Char>.randomString(length: Int) =
+        (1..length).map { (random.nextInt(endInclusive.toInt() - start.toInt()) + start.toInt()).toChar() }.joinToString("")
+
+    companion object {
+        private val random = Random()
+        private val letters = ('a'..'z')
+    }
 
 }

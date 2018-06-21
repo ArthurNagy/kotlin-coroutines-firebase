@@ -39,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{user.displayName}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             app:layout_constraintStart_toEndOf="@id/third_keyline"
             app:layout_constraintTop_toTopOf="@id/user_avatar"
             tools:text="@tools:sample/full_names" />
@@ -48,6 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{user.email}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintStart_toEndOf="@id/third_keyline"
             app:layout_constraintTop_toBottomOf="@id/user_name"
             tools:text="email@email.com" />

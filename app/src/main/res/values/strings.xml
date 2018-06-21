@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Kotlin Coroutines Firestore</string>
+    <string name="add_user">add</string>
+    <string name="remove_user">remove</string>
 </resources>
