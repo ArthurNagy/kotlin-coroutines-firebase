@@ -102,14 +102,6 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    private suspend fun createUser() = suspendCoroutine<User> { continuation ->
-        val id = letters.randomString(16)
-        val displayName = "${letters.randomString(6)} ${letters.randomString(4)}"
-        val email = "${letters.randomString(5)}@${letters.randomString(5)}.com"
-        continuation.resume(User(id, displayName, email, "https://source.unsplash.com/collection/888146/300x300"))
-    }
-
-
     fun removeUser() {
         launchWithParent(UI) {
             users.value?.let { currentUsers ->
@@ -125,6 +117,13 @@ class MainViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    private suspend fun createUser() = suspendCoroutine<User> { continuation ->
+        val id = letters.randomString(16)
+        val displayName = "${letters.randomString(6)} ${letters.randomString(4)}"
+        val email = "${letters.randomString(5)}@${letters.randomString(5)}.com"
+        continuation.resume(User(id, displayName, email, "https://source.unsplash.com/collection/888146/300x300"))
     }
 
     override fun onCleared() {
