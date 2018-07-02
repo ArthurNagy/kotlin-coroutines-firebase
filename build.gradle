@@ -2,8 +2,8 @@
 
 buildscript {
     ext{
-        kotlin_version = '1.2.41'
-        android_gradle_plugin = '3.2.0-beta01'
+        kotlin_version = '1.2.50'
+        android_gradle_plugin = '3.2.0-beta02'
     }
     repositories {
         google()
