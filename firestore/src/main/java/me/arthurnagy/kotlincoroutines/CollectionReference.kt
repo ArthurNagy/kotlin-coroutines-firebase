@@ -3,7 +3,9 @@ package me.arthurnagy.kotlincoroutines
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Source
-import kotlin.coroutines.experimental.suspendCoroutine
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 //region GET
 suspend inline fun <reified T> CollectionReference.awaitGet(source: Source = Source.DEFAULT): List<T> = this.get(source).awaitGet()
@@ -13,7 +15,8 @@ suspend inline fun <reified T> CollectionReference.awaitGetResult(source: Source
 //endregion
 
 //region ADD
-suspend inline fun <T : Any> CollectionReference.awaitAdd(data: T): DocumentReference = suspendCoroutine { continuation ->
+suspend inline fun <T : Any> CollectionReference.awaitAdd(data: T): DocumentReference =
+    suspendCancellableCoroutine { continuation ->
     this.add(data).addOnCompleteListener { task ->
         if (task.isSuccessful) {
             continuation.resume(task.result)

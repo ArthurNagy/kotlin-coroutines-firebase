@@ -3,7 +3,10 @@ package me.arthurnagy.kotlincoroutines
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.Source
-import kotlin.coroutines.experimental.suspendCoroutine
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 //region GET
 /**
@@ -13,7 +16,7 @@ import kotlin.coroutines.experimental.suspendCoroutine
  * @return
  */
 private suspend fun <T> awaitDocumentValue(document: DocumentReference, type: Class<T>, source: Source = Source.DEFAULT): T =
-    suspendCoroutine { continuation ->
+    suspendCancellableCoroutine { continuation ->
         document.get(source).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 try {

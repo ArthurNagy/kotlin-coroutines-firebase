@@ -4,22 +4,22 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.DefaultDispatcher
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.launch
 import me.arthurnagy.kotlincoroutines.*
 import java.util.*
-import kotlin.coroutines.experimental.CoroutineContext
-import kotlin.coroutines.experimental.suspendCoroutine
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
-class MainViewModel : ViewModel() {
-
-    private val job = Job()
+class MainViewModel : ViewModel(), CoroutineScope {
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val firebaseFirestore = FirebaseFirestore.getInstance()
     private val userCollection = firebaseFirestore.collection(User.REFERENCE)
@@ -27,12 +27,17 @@ class MainViewModel : ViewModel() {
     val isUserLoggedIn = MutableLiveData<Boolean>()
     val users = MutableLiveData<List<User>>()
 
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+
     init {
         loggedInUser.observeForever { isUserLoggedIn.value = it != null }
     }
 
     fun signIn(authCredential: AuthCredential) {
-        launchWithParent(UI) {
+        launch {
             val firebaseUser: FirebaseUser
             /* Firestore with Kotlin coroutines .awaitX() approach
                 In this case .await method can throw an exception, so we need to wrap them in a try catch block
@@ -55,12 +60,12 @@ class MainViewModel : ViewModel() {
              */
             val authenticatedUserResult = firebaseAuth.signInWithCredential(authCredential).awaitResult()
             when (authenticatedUserResult) {
-                is Result.Success -> {
+                is Result.Success<AuthResult> -> {
                     firebaseUser = authenticatedUserResult.value.user
                     val user = User.create(firebaseUser)
                     val userResult = userCollection.document(user.id).awaitSetResult(user)
                     when (userResult) {
-                        is Result.Success -> loggedInUser.value = user
+                        is Result.Success<*> -> loggedInUser.value = user
                         is Result.Error -> Log.d("MainViewModel", "signIn: create user failed: ${userResult.exception}")
                     }
                 }
@@ -70,7 +75,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun getUsers() {
-        launchWithParent(UI) {
+        launch {
             //            try {
 //                val userList: List<User> = userCollection.get().awaitGet()
 //                users.value = userList
@@ -86,11 +91,11 @@ class MainViewModel : ViewModel() {
     }
 
     fun addUser() {
-        launchWithParent(UI) {
+        launch {
             val newUser = createUser()
             val newUserResult = userCollection.document(newUser.id).awaitSetResult(newUser)
             when (newUserResult) {
-                is Result.Success -> {
+                is Result.Success<*> -> {
                     users.value?.let { currentUsers ->
                         val position = if (currentUsers.isNotEmpty()) (0..currentUsers.size).randomPosition() else 0
                         val newUsers = currentUsers.toMutableList().apply { add(position, newUser) }
@@ -103,7 +108,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun removeUser() {
-        launchWithParent(UI) {
+        launch {
             users.value?.let { currentUsers ->
                 if (currentUsers.isNotEmpty()) {
                     val position = (0..currentUsers.size).randomPosition()
@@ -131,10 +136,6 @@ class MainViewModel : ViewModel() {
         job.cancel()
     }
 
-    private fun launchWithParent(
-        context: CoroutineContext = DefaultDispatcher,
-        block: suspend CoroutineScope.() -> Unit
-    ) = launch(context = context, parent = job, block = block)
 
     private fun IntRange.randomPosition() = random.nextInt(endInclusive - start) + start
 

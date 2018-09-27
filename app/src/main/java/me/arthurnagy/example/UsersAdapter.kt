@@ -27,6 +27,7 @@ class UsersAdapter : ListAdapter<User, UsersAdapter.UserViewHolder>(USER_DIFF_CA
     }
 
     companion object {
+        @JvmField
         val USER_DIFF_CALLBACK = object : DiffUtil.ItemCallback<User>() {
             override fun areItemsTheSame(oldItem: User, newItem: User): Boolean = oldItem.id == newItem.id
 

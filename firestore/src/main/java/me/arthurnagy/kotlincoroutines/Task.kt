@@ -2,7 +2,9 @@ package me.arthurnagy.kotlincoroutines
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.QuerySnapshot
-import kotlin.coroutines.experimental.suspendCoroutine
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 /**
  * Coroutine support to Firebase Task interface
@@ -35,7 +37,7 @@ import kotlin.coroutines.experimental.suspendCoroutine
  * @throws Exception Thrown in case of network error or other reasons described in the Firebase docs
  * @return The value returned by the Firebase success callback
  */
-suspend fun <T> Task<T>.await(): T = suspendCoroutine { continuation ->
+suspend fun <T> Task<T>.await(): T = suspendCancellableCoroutine { continuation ->
     this.addOnCompleteListener { task ->
         if (task.isSuccessful) {
             continuation.resume(task.result)
@@ -47,7 +49,8 @@ suspend fun <T> Task<T>.await(): T = suspendCoroutine { continuation ->
 
 suspend inline fun <T> Task<T>.awaitResult(): Result<T> = wrapIntoResult { this.await() }
 
-private suspend fun <T> awaitTaskQueryList(task: Task<QuerySnapshot>, type: Class<T>): List<T> = suspendCoroutine { continuation ->
+private suspend fun <T> awaitTaskQueryList(task: Task<QuerySnapshot>, type: Class<T>): List<T> =
+    suspendCancellableCoroutine { continuation ->
     task.addOnCompleteListener { task ->
         if (task.isSuccessful) {
             try {

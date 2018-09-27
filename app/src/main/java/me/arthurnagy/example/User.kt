@@ -1,8 +1,9 @@
 package me.arthurnagy.example
 
+import androidx.annotation.Keep
 import com.google.firebase.auth.FirebaseUser
 
-
+@Keep
 class User() {
 
     var id: String = ""
