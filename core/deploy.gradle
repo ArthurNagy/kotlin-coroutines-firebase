@@ -2,12 +2,11 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 apply from: '../keystore.gradle'
 
-
 ext {
     // This configuration will result in:
     // compile '<groupId>:<artifactId>:<libVersion>'
     groupId = 'me.arthurnagy.kotlincoroutines' // package name of the project
-    artifactId = "firestore" // module name of the library
+    artifactId = "firebase-core" // module name of the library
     libVersion = library_version_name
 }
 version = libVersion

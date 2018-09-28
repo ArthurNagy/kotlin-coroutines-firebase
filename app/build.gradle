@@ -44,6 +44,8 @@ dependencies {
 
     implementation project(':firestore')
 //    implementation 'me.arthurnagy.kotlincoroutines:firestore:0.0.3'
+    implementation project(':core')
+//    implementation 'me.arthurnagy.kotlincoroutines:firebase-core:0.0.3'
 
     implementation "androidx.appcompat:appcompat:$androidx"
     implementation "androidx.recyclerview:recyclerview:$androidx"

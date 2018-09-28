@@ -1,0 +1,12 @@
+ext {
+    build_tools = '28.0.3'
+    min_sdk = project.hasProperty('minSdkV') ? minSdkV.toInteger() : 19
+    target_sdk = 28
+    compile_sdk = 28
+    coroutines = '0.27.0-eap13'
+    firebase_core = '16.0.3'
+    firebase_firestore = '17.1.0'
+
+    library_version_code = 3
+    library_version_name = '0.0.3'
+}

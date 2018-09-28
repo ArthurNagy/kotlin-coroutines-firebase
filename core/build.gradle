@@ -26,13 +26,10 @@ dokka {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(':core')
-//    implementation 'me.arthurnagy.kotlincoroutines:core:0.0.3'
-
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compileOnly "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
 
-    compileOnly "com.google.firebase:firebase-firestore:$firebase_firestore"
+    compileOnly "com.google.firebase:firebase-core:$firebase_core"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'

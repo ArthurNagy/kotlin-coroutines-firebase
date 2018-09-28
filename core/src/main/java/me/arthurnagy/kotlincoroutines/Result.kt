@@ -5,8 +5,8 @@ sealed class Result<out T> {
     class Error(val exception: Throwable) : Result<Nothing>()
 }
 
-inline fun <T> wrapIntoResult(firestoreCoroutine: () -> T): Result<T> = try {
-    Result.Success(firestoreCoroutine())
+inline fun <T> wrapIntoResult(coroutineBlock: () -> T): Result<T> = try {
+    Result.Success(coroutineBlock())
 } catch (exception: Exception) {
     Result.Error(exception)
 }

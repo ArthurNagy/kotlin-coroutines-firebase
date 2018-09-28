@@ -13,7 +13,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.launch
-import me.arthurnagy.kotlincoroutines.*
+import me.arthurnagy.kotlincoroutines.awaitDeleteResult
+import me.arthurnagy.kotlincoroutines.awaitGetResult
+import me.arthurnagy.kotlincoroutines.awaitSetResult
+import me.arthurnagy.kotlincoroutines.awaitResult
+import me.arthurnagy.kotlincoroutines.Result
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
