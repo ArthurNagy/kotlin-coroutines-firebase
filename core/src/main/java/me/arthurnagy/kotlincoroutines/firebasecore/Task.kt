@@ -1,4 +1,4 @@
-package me.arthurnagy.kotlincoroutines
+package me.arthurnagy.kotlincoroutines.firebasecore
 
 import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -39,11 +39,14 @@ import kotlin.coroutines.resumeWithException
 suspend fun <T> Task<T>.await(): T = suspendCancellableCoroutine { continuation ->
     this.addOnCompleteListener { task ->
         if (task.isSuccessful) {
-            continuation.resume(task.result)
+            task.result?.let {
+                continuation.resume(it)
+            } ?: continuation.resumeWithException(Exception("Firebase Task returned null"))
         } else {
             continuation.resumeWithException(task.exception ?: Exception("Firebase Task failed to execute"))
         }
     }
 }
 
-suspend inline fun <T> Task<T>.awaitResult(): Result<T> = wrapIntoResult { this.await() }
+suspend inline fun <T> Task<T>.awaitResult(): Result<T> =
+    me.arthurnagy.kotlincoroutines.firebasecore.wrapIntoResult { this.await() }

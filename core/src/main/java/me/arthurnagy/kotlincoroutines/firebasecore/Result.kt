@@ -1,4 +1,4 @@
-package me.arthurnagy.kotlincoroutines
+package me.arthurnagy.kotlincoroutines.firebasecore
 
 sealed class Result<out T> {
     class Success<out T>(val value: T) : Result<T>()

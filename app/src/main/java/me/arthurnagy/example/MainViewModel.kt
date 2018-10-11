@@ -11,13 +11,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.launch
-import me.arthurnagy.kotlincoroutines.awaitDeleteResult
-import me.arthurnagy.kotlincoroutines.awaitGetResult
-import me.arthurnagy.kotlincoroutines.awaitSetResult
-import me.arthurnagy.kotlincoroutines.awaitResult
-import me.arthurnagy.kotlincoroutines.Result
+import me.arthurnagy.kotlincoroutines.firebasecore.awaitResult
+import me.arthurnagy.kotlincoroutines.firestore.awaitDeleteResult
+import me.arthurnagy.kotlincoroutines.firestore.awaitGetResult
+import me.arthurnagy.kotlincoroutines.firestore.awaitSetResult
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
@@ -64,16 +62,22 @@ class MainViewModel : ViewModel(), CoroutineScope {
              */
             val authenticatedUserResult = firebaseAuth.signInWithCredential(authCredential).awaitResult()
             when (authenticatedUserResult) {
-                is Result.Success<AuthResult> -> {
+                is me.arthurnagy.kotlincoroutines.firebasecore.Result.Success<AuthResult> -> {
                     firebaseUser = authenticatedUserResult.value.user
                     val user = User.create(firebaseUser)
                     val userResult = userCollection.document(user.id).awaitSetResult(user)
                     when (userResult) {
-                        is Result.Success<*> -> loggedInUser.value = user
-                        is Result.Error -> Log.d("MainViewModel", "signIn: create user failed: ${userResult.exception}")
+                        is me.arthurnagy.kotlincoroutines.firebasecore.Result.Success<*> -> loggedInUser.value = user
+                        is me.arthurnagy.kotlincoroutines.firebasecore.Result.Error -> Log.d(
+                            "MainViewModel",
+                            "signIn: create user failed: ${userResult.exception}"
+                        )
                     }
                 }
-                is Result.Error -> Log.d("MainViewModel", "signIn: signInWithCredential failed: ${authenticatedUserResult.exception}")
+                is me.arthurnagy.kotlincoroutines.firebasecore.Result.Error -> Log.d(
+                    "MainViewModel",
+                    "signIn: signInWithCredential failed: ${authenticatedUserResult.exception}"
+                )
             }
         }
     }
@@ -86,10 +90,13 @@ class MainViewModel : ViewModel(), CoroutineScope {
 //            } catch (exception: Exception) {
 //                Log.d("MainViewModel", "loadUsers: failed to get users: $exception")
 //            }
-            val usersResult: Result<List<User>> = userCollection.get().awaitGetResult()
+            val usersResult: me.arthurnagy.kotlincoroutines.firebasecore.Result<List<User>> = userCollection.get().awaitGetResult()
             when (usersResult) {
-                is Result.Success -> users.value = usersResult.value
-                is Result.Error -> Log.d("MainViewModel", "loadUsers: failed to get users: ${usersResult.exception}")
+                is me.arthurnagy.kotlincoroutines.firebasecore.Result.Success -> users.value = usersResult.value
+                is me.arthurnagy.kotlincoroutines.firebasecore.Result.Error -> Log.d(
+                    "MainViewModel",
+                    "loadUsers: failed to get users: ${usersResult.exception}"
+                )
             }
         }
     }
@@ -99,14 +106,17 @@ class MainViewModel : ViewModel(), CoroutineScope {
             val newUser = createUser()
             val newUserResult = userCollection.document(newUser.id).awaitSetResult(newUser)
             when (newUserResult) {
-                is Result.Success<*> -> {
+                is me.arthurnagy.kotlincoroutines.firebasecore.Result.Success<*> -> {
                     users.value?.let { currentUsers ->
                         val position = if (currentUsers.isNotEmpty()) (0..currentUsers.size).randomPosition() else 0
                         val newUsers = currentUsers.toMutableList().apply { add(position, newUser) }
                         users.value = newUsers
                     }
                 }
-                is Result.Error -> Log.d("MainViewModel", "addUser: failed to save user: ${newUserResult.exception}")
+                is me.arthurnagy.kotlincoroutines.firebasecore.Result.Error -> Log.d(
+                    "MainViewModel",
+                    "addUser: failed to save user: ${newUserResult.exception}"
+                )
             }
         }
     }
@@ -120,8 +130,11 @@ class MainViewModel : ViewModel(), CoroutineScope {
                     val userToRemove = newUsers.removeAt(position)
                     val removeUserResult = userCollection.document(userToRemove.id).awaitDeleteResult()
                     when (removeUserResult) {
-                        is Result.Success -> users.value = newUsers
-                        is Result.Error -> Log.d("MainViewModel", "removeUser: failed to remove user: ${removeUserResult.exception}")
+                        is me.arthurnagy.kotlincoroutines.firebasecore.Result.Success -> users.value = newUsers
+                        is me.arthurnagy.kotlincoroutines.firebasecore.Result.Error -> Log.d(
+                            "MainViewModel",
+                            "removeUser: failed to remove user: ${removeUserResult.exception}"
+                        )
                     }
                 }
             }

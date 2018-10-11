@@ -2,15 +2,10 @@
 
 buildscript {
     apply from: 'versions.gradle'
-    ext{
-        kotlin_version = '1.3.0-rc-116'
-        android_gradle_plugin = '3.3.0-alpha12'
-    }
     repositories {
         google()
         jcenter()
         maven { url 'http://dl.bintray.com/kotlin/kotlin-eap' }
-        maven { url 'https://kotlin.bintray.com/kotlinx' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$android_gradle_plugin"
@@ -30,7 +25,6 @@ allprojects {
         google()
         jcenter()
         maven { url 'http://dl.bintray.com/kotlin/kotlin-eap' }
-        maven { url 'https://kotlin.bintray.com/kotlinx' }
     }
 }
 

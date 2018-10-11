@@ -22,7 +22,7 @@ android {
         }
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'consume-proguard-rules.pro'
         }
     }
     packagingOptions {
@@ -61,15 +61,15 @@ dependencies {
 
     implementation "com.google.firebase:firebase-core:$firebase_core"
     implementation "com.google.firebase:firebase-firestore:$firebase_firestore"
-    implementation "com.google.firebase:firebase-auth:16.0.3"
-    implementation "com.google.android.gms:play-services-auth:16.0.0"
+    implementation "com.google.firebase:firebase-auth:16.0.4"
+    implementation "com.google.android.gms:play-services-auth:16.0.1"
 
     implementation "com.github.bumptech.glide:glide:$glide"
     kapt "com.github.bumptech.glide:compiler:$glide"
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta01'
 }
 
 apply plugin: 'com.google.gms.google-services'

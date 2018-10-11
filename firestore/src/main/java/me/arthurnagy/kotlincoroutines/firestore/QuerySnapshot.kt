@@ -1,4 +1,4 @@
-package me.arthurnagy.kotlincoroutines
+package me.arthurnagy.kotlincoroutines.firestore
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.QuerySnapshot
@@ -11,7 +11,7 @@ private suspend fun <T> awaitTaskQueryList(task: Task<QuerySnapshot>, type: Clas
         task.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 try {
-                    val data: List<T> = task.result.toObjects(type)
+                    val data: List<T> = task.result?.toObjects(type).orEmpty()
                     continuation.resume(data)
                 } catch (exception: Exception) {
                     continuation.resumeWithException(exception)
@@ -22,9 +22,9 @@ private suspend fun <T> awaitTaskQueryList(task: Task<QuerySnapshot>, type: Clas
         }
     }
 
-suspend fun <T> Task<QuerySnapshot>.awaitGet(type: Class<T>): List<T> = awaitTaskQueryList(this, type)
+suspend fun <T> Task<QuerySnapshot>.awaitGet(type: Class<T>): List<T> = me.arthurnagy.kotlincoroutines.firestore.awaitTaskQueryList(this, type)
 
 suspend inline fun <reified T> Task<QuerySnapshot>.awaitGet(): List<T> = this.awaitGet(T::class.java)
 
-suspend inline fun <reified T> Task<QuerySnapshot>.awaitGetResult(): Result<List<T>> =
-    wrapIntoResult { this.awaitGet<T>() }
+suspend inline fun <reified T> Task<QuerySnapshot>.awaitGetResult(): me.arthurnagy.kotlincoroutines.firebasecore.Result<List<T>> =
+    me.arthurnagy.kotlincoroutines.firebasecore.wrapIntoResult { this.awaitGet<T>() }
