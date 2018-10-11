@@ -1,0 +1,34 @@
+apply from: rootProject.file('versions.gradle')
+
+/**
+ * Bintray release configuration
+ * */
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = POM_BINTRAY_NAME
+
+    publishedGroupId = 'me.arthurnagy.kotlincoroutines'
+    libraryName = 'Firebase Kotlin Coroutines'
+    artifact = POM_ARTIFACT_ID
+    packagingType = POM_PACKAGING
+
+    libraryDescription = POM_DESCRIPTION
+
+    siteUrl = 'https://github.com/ArthurNagy/kotlin-coroutines-firebase'
+    gitUrl = 'https://github.com/ArthurNagy/kotlin-coroutines-firebase.git'
+
+    libraryVersion = library_version_name
+
+    developerId = 'ArthurNagy'
+    developerName = 'Arthur Nagy'
+    developerEmail = 'arthur.93.nagy@gmail.com'
+
+    licenseName = 'MIT'
+    allLicenses = ["MIT"]
+}
+
+// Set up the Android Maven publication.
+apply from: rootProject.file('maven-install.gradle')
+
+// Publish on Bintray.
+apply from: rootProject.file('bintray.gradle')
