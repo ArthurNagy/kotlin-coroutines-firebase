@@ -1,4 +1,4 @@
-# Kotlin Coroutines Firestore Android
+# Kotlin Coroutines Firebase Android
 Kotlin Coroutines extensions for Firebase for Android
 
 Adding the dependencies:
